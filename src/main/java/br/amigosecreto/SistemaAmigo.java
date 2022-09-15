@@ -67,33 +67,37 @@ public class SistemaAmigo {
     }
 
     // falta arrumar
-    public void configuraAmigoSecreto(String emailDaPessoa, String emailAmigoSorteado){
-
+    public void configuraAmigoSecreto(String emailDaPessoa, String emailAmigoSorteado) throws AmigoInexistenteException {
+        boolean ehAmigo = false;
         for(Amigo a: this.amigos){
             if(a.getEmail().equals(emailDaPessoa)){
-                 a.setEmailAmigoSorteado(emailAmigoSorteado);
+                a.setEmailAmigoSorteado(emailAmigoSorteado);
+                ehAmigo = true;
+                System.out.println(a);
             }
-            else{
-                System.out.println("Algo deu errado");
+            if(!ehAmigo){
+                throw new AmigoInexistenteException("Amigo inexistente");
             }
         }
     }
 
-    public String pesquisaAmigoSecreto(String emailDaPessoa) throws AmigoInexistenteExceptioin, AmigoNaoSorteadoException {
+    public String pesquisaAmigoSecreto(String emailDaPessoa) throws AmigoNaoSorteadoException, AmigoInexistenteException {
         boolean amigoExiste = false;
+        boolean emailPessoaExist = false;
         String amigoSecreto = "";
 
         for(Amigo a: this.amigos){
-            if(a.getEmailAmigoSorteado().equals(emailDaPessoa)){
-                amigoExiste = true;
-                amigoSecreto = a.getNome();
-            }else if(a.getEmailAmigoSorteado().equals(emailDaPessoa) && a.getEmailAmigoSorteado().equals(null)){
-                throw new AmigoNaoSorteadoException("O email do seu amigo secreto ainda não foi configurado");
+            if(a.getEmail().equals(emailDaPessoa)){
+                emailPessoaExist = true;
+                if(a.getEmailAmigoSorteado() != ""){
+                    amigoSecreto = a.getEmailAmigoSorteado();
+                    amigoExiste = true;
+                }
+            }else if(!amigoExiste){
+                throw new AmigoNaoSorteadoException("Amigo não configurado");
+            }else if(!emailPessoaExist){
+                throw new AmigoInexistenteException("Pessoa inexistente");
             }
-        }
-
-        if(!amigoExiste){
-            throw new AmigoInexistenteExceptioin("Não existe amigo com esse email");
         }
 
         return amigoSecreto;
