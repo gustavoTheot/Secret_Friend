@@ -1,6 +1,6 @@
 package br.amigosecreto;
 
-public class Mensagem {
+public abstract class Mensagem {
     private String texto;
     private String emailRemetente;
     private boolean anonima;
@@ -28,9 +28,8 @@ public class Mensagem {
         this.emailRemetente = emailRemetente;
     }
 
-    public String getTextoCompletoAExibir(){
-        return toString();
-    }
+    public abstract String getTextoCompletoAExibir();
+
 
     public boolean ehAnonimo(){
         return this.anonima;

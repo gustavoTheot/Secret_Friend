@@ -17,13 +17,12 @@ public class MensagemParaAlguem extends Mensagem{
     }
 
     public String getTextoCompletoAExibir(){
-        String mensagem = "";
         if(ehAnonimo() == true){
-            mensagem = "Mensagem para: " + this.emailDestinatario + "Texto: " + getTexto();
+            return "Mensagem para: " + this.emailDestinatario + "Texto: " + getTexto();
         }else{
-            mensagem = "Mensagem de:" + getEmailRemetente() + "para" + getEmailDestinatario() + "Texto:" + getTexto();
+            return "Mensagem de:" + getEmailRemetente() + "para" + getEmailDestinatario() + "Texto:" + getTexto();
         }
 
-        return mensagem;
+
     }
 }

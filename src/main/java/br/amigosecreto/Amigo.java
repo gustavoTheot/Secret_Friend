@@ -5,10 +5,10 @@ public class Amigo {
     private String email;
     private String emailAmigoSorteado;
 
-    public Amigo(String nome, String email, String emailAmigoSorteado){
+    public Amigo(String nome, String email){
         this.nome = nome;
         this.email = email;
-        this.emailAmigoSorteado = emailAmigoSorteado;
+        this.emailAmigoSorteado = null;
     }
 
     public String getNome() {

@@ -7,13 +7,12 @@ public class MensagemParaTodos extends Mensagem{
     }
 
     public String getTextoCompletoAExibir(){
-        String mensagem = "";
         if(ehAnonimo() == true){
-            mensagem = "Mensagem para todos:" + getTexto();
+            return "Mensagem para todos:" + getTexto();
         }else{
-            mensagem = "Mensagem de " + getEmailRemetente() + "para todos." + getTexto();
+            return "Mensagem de " + getEmailRemetente() + "para todos." + getTexto();
         }
 
-        return mensagem;
+
     }
 }

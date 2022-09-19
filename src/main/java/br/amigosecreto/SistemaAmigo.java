@@ -1,6 +1,7 @@
 package br.amigosecreto;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SistemaAmigo {
     private ArrayList<Mensagem> mensagens;
@@ -11,19 +12,36 @@ public class SistemaAmigo {
         this.amigos = amigos;
     }
 
-    // falta arrumar
-    public void cadastraAmigo(String nomeAmigo, String emailAmigo){
-        Amigo a1 = new Amigo(nomeAmigo, emailAmigo, "");
-        this.amigos.add(a1);
+    public SistemaAmigo() {
+
     }
 
-    public String pesquisaAmigo(String email){
+
+    // falta arrumar
+    public void cadastraAmigo(String nomeAmigo, String emailAmigo) throws AmigoJaExisteException, AmigoNaoSorteadoException{
+        boolean existe = false;
+
         for(Amigo a : this.amigos){
-            if(a.getEmail().equals(email)) {
-                System.out.println("Nome: " +a.getNome()+ " Email: " +a.getEmail());
+            if (a.getEmail().equals(emailAmigo)){
+                throw new AmigoJaExisteException("Email do amigo já existe");
             }
         }
-        return email;
+
+        if(!existe){
+            Amigo a1 = new Amigo(nomeAmigo, emailAmigo);
+            this.amigos.add(a1);
+        }
+
+    }
+
+    public Amigo pesquisaAmigo(String emailAmigo) throws AmigoInexistenteException {
+        for(Amigo a : amigos){
+            if(a.getEmail().equals(emailAmigo)) {
+                return a;
+            }
+        }
+
+        throw new AmigoInexistenteException("Não foi encontrado nenhum usuário com esse email " + emailAmigo);
     }
 
     // falta arrumar
@@ -45,10 +63,9 @@ public class SistemaAmigo {
     public ArrayList<Mensagem> pesquisarMensagensAnonimas(){
         ArrayList<Mensagem> pesquisamensagensAnonimas = new ArrayList<>();
 
-        for(Mensagem m : this.mensagens){
+        for(Mensagem m : pesquisamensagensAnonimas){
             if(m.ehAnonimo() == true){
-                System.out.println(m);
-                pesquisamensagensAnonimas.add(m);
+                System.out.println(m.getTextoCompletoAExibir());
             }
         }
 
@@ -56,51 +73,46 @@ public class SistemaAmigo {
     }
 
     public ArrayList<Mensagem> pesquisarTodasMensagens(){
-        ArrayList<Mensagem> pesquisarTodasMensagens = new ArrayList<>();
-
-        for(Mensagem m: this.mensagens){
-            System.out.println(m);
-            pesquisarTodasMensagens.add(m);
-        }
-
-        return pesquisarTodasMensagens;
+        return this.mensagens;
     }
 
     // falta arrumar
-    public void configuraAmigoSecreto(String emailDaPessoa, String emailAmigoSorteado) throws AmigoInexistenteException {
-        boolean ehAmigo = false;
+    public void configuraAmigoSecreto(String emailDaPessoa, String emailAmigoSorteado) throws AmigoInexistenteException{
+        boolean amigoExiste = false;
+
         for(Amigo a: this.amigos){
             if(a.getEmail().equals(emailDaPessoa)){
-                a.setEmailAmigoSorteado(emailAmigoSorteado);
-                ehAmigo = true;
-                System.out.println(a);
+                for(Amigo amigoSecreto : this.amigos){
+                    if(amigoSecreto.getEmail().equals(emailAmigoSorteado)){
+                        a.setEmailAmigoSorteado(emailAmigoSorteado);
+                        amigoExiste = true;
+                        System.out.println("\nEmail da pessoa: " + a.getEmail() + "\nNome da Pessoa: " + a.getNome() + "\nEmail do amigo sorteado: " + a.getEmailAmigoSorteado() );
+                    }
+                }
+                break;
             }
-            if(!ehAmigo){
-                throw new AmigoInexistenteException("Amigo inexistente");
-            }
+        }
+
+        if(!amigoExiste) {
+            throw new AmigoInexistenteException("Amigo não encontrada para a configuração do amigo secreto");
         }
     }
 
-    public String pesquisaAmigoSecreto(String emailDaPessoa) throws AmigoNaoSorteadoException, AmigoInexistenteException {
-        boolean amigoExiste = false;
-        boolean emailPessoaExist = false;
-        String amigoSecreto = "";
+    public String pesquisaAmigoSecreto(String emailDaPessoa) throws AmigoInexistenteException, AmigoNaoSorteadoException{
 
         for(Amigo a: this.amigos){
             if(a.getEmail().equals(emailDaPessoa)){
-                emailPessoaExist = true;
-                if(a.getEmailAmigoSorteado() != ""){
-                    amigoSecreto = a.getEmailAmigoSorteado();
-                    amigoExiste = true;
+                String amigoSecreto = a.getEmailAmigoSorteado();
+                if(amigoSecreto == null){
+                    throw new AmigoNaoSorteadoException("Amigo não configurado");
+                }else{
+                    return amigoSecreto;
                 }
-            }else if(!amigoExiste){
-                throw new AmigoNaoSorteadoException("Amigo não configurado");
-            }else if(!emailPessoaExist){
-                throw new AmigoInexistenteException("Pessoa inexistente");
             }
         }
 
-        return amigoSecreto;
+        throw new AmigoInexistenteException("Pessoa inexistente");
+
     }
 
     // plus

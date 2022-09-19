@@ -4,8 +4,37 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args){
         SistemaAmigo s1 = new SistemaAmigo(new ArrayList<Mensagem>(), new ArrayList<Amigo>());
+        try{
+
+            s1.cadastraAmigo("Jose", "jose@gmail.com");
+            s1.cadastraAmigo("Maria", "maria@gmail.com");
+
+            s1.pesquisarTodosAmigos();
+
+            s1.configuraAmigoSecreto("maria@gmail.com", "jose@gmail.com");
+
+            s1.enviarmensagemParaAlguem("Maria cade você?", "maria@gmail.com", "jose@gmail.com", true);
+            s1.enviarMesagemParaTodos("Bom dia a todos", "maria@gmail.com", false);
+
+            s1.pesquisarMensagensAnonimas();
+
+            Amigo searchEmail = s1.pesquisaAmigo("maria@gmail.com");
+            if(searchEmail.equals("maria@gmail.com")) {
+                System.out.println("OK");
+            }
+
+            s1.pesquisaAmigoSecreto("maria@gmail.com");
+
+        } catch (AmigoInexistenteException | AmigoNaoSorteadoException e){
+            System.out.println(e.getMessage());
+        } catch (Exception e){
+            System.out.println("Erro no programa. Tente novamente");
+        }
+
+
+         /*
         try {
             s1.cadastraAmigo("Jose", "jose@gmail.com");
             s1.cadastraAmigo("Maria", "maria@gmail.com");
@@ -40,12 +69,15 @@ public class Main {
             s1.pesquisarTodasMensagens();
 
             // Configurar amigo secreto
-            System.out.println("==============Confi amigo secreto==============\n");
+            System.out.println("==============Confi amigo secreto==============");
+            s1.configuraAmigoSecreto("meduarda@gmail.com", "pablo@gmail.com");
             s1.configuraAmigoSecreto("jose@gmail.com", "maria@gmail.com");
 
+
             // Pesquisa amigo secreto
-            System.out.println("==============Pesquisa amigo secreto==============\n");
-            s1.pesquisaAmigoSecreto("maria@gmail.com");
+            System.out.println("\n==============Pesquisa amigo secreto==============\n");
+            s1.pesquisaAmigoSecreto("meduarda@gmail.com");
+
 
 
         } catch (AmigoInexistenteException | AmigoNaoSorteadoException e){
@@ -55,7 +87,7 @@ public class Main {
         }
 
 
-        /*
+
 
         s1.cadastraAmigo("Eduarda", "meduarda@gmail.com");
         s1.cadastraAmigo("Pablo", "pablo@gmail.com");
@@ -91,7 +123,7 @@ public class Main {
         // Pesquisa todos os amigos
         System.out.println("\n==============Todos os amigos==============");
         s1.pesquisarTodosAmigos();
-
          */
+
     }
 }
