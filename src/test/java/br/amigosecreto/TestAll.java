@@ -78,7 +78,7 @@ public class TestAll {
     void testPesquisaTodasAsMensagens() {
         assertTrue(sistema.pesquisarTodasMensagens().isEmpty());
         sistema.enviarmensagemParaAlguem("texto 1", "ayla@dcx.ufpb.br", "rodrigor@dcx.ufpb.br", false);
-        assertTrue(sistema.pesquisarMensagensAnonimas().size()==1);
+        assertTrue(sistema.pesquisarTodasMensagens().size()==1);
         sistema.enviarmensagemParaAlguem("texto 2", "ayla@dcx.ufpb.br", "rodrigor@dcx.ufpb.br", true);
         assertTrue(sistema.pesquisarTodasMensagens().size()==2);
     }

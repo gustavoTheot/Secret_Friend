@@ -18,7 +18,10 @@ public class Main {
             s1.enviarmensagemParaAlguem("Maria cade você?", "maria@gmail.com", "jose@gmail.com", true);
             s1.enviarMesagemParaTodos("Bom dia a todos", "maria@gmail.com", false);
 
-            s1.pesquisarMensagensAnonimas();
+            ArrayList<Mensagem> msgAnonimas = s1.pesquisarMensagensAnonimas();
+            for(Mensagem m : msgAnonimas){
+                System.out.println(m.getTextoCompletoAExibir());
+            }
 
             Amigo searchEmail = s1.pesquisaAmigo("maria@gmail.com");
             if(searchEmail.equals("maria@gmail.com")) {
@@ -26,6 +29,9 @@ public class Main {
             }
 
             s1.pesquisaAmigoSecreto("maria@gmail.com");
+
+            System.out.println("Todas mensagens");
+            s1.pesquisarTodasMensagens();
 
         } catch (AmigoInexistenteException | AmigoNaoSorteadoException e){
             System.out.println(e.getMessage());

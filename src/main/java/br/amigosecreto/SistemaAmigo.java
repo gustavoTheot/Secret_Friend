@@ -12,10 +12,27 @@ public class SistemaAmigo {
         this.amigos = amigos;
     }
 
-    public SistemaAmigo() {
-
+    public SistemaAmigo(){
+        this.mensagens = new ArrayList<>();
+        this.amigos = new ArrayList<>();
     }
 
+
+    public ArrayList<Mensagem> getMensagens() {
+        return mensagens;
+    }
+
+    public void setMensagens(ArrayList<Mensagem> mensagens) {
+        this.mensagens = mensagens;
+    }
+
+    public ArrayList<Amigo> getAmigos() {
+        return amigos;
+    }
+
+    public void setAmigos(ArrayList<Amigo> amigos) {
+        this.amigos = amigos;
+    }
 
     // falta arrumar
     public void cadastraAmigo(String nomeAmigo, String emailAmigo) throws AmigoJaExisteException, AmigoNaoSorteadoException{
@@ -63,9 +80,9 @@ public class SistemaAmigo {
     public ArrayList<Mensagem> pesquisarMensagensAnonimas(){
         ArrayList<Mensagem> pesquisamensagensAnonimas = new ArrayList<>();
 
-        for(Mensagem m : pesquisamensagensAnonimas){
-            if(m.ehAnonimo() == true){
-                System.out.println(m.getTextoCompletoAExibir());
+        for(Mensagem m : this.mensagens){
+            if(m.ehAnonimo()){
+                pesquisamensagensAnonimas.add(m);
             }
         }
 
@@ -73,7 +90,14 @@ public class SistemaAmigo {
     }
 
     public ArrayList<Mensagem> pesquisarTodasMensagens(){
-        return this.mensagens;
+        ArrayList<Mensagem> pesquisarTodasMensagens = new ArrayList<>();
+
+        for(Mensagem m: this.mensagens){
+            System.out.println(m);
+            pesquisarTodasMensagens.add(m);
+        }
+
+        return pesquisarTodasMensagens;
     }
 
     // falta arrumar
